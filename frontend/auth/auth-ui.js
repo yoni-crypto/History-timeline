@@ -1,6 +1,6 @@
 function handleUserClick() {
   if (auth.isLoggedIn()) {
-    window.location.href = '../orders/';
+    window.location.href = '/frontend/orders/';
   } else {
     document.getElementById('auth-modal').classList.remove('hidden');
   }
@@ -31,8 +31,12 @@ function switchAuthTab(tab) {
 function updateUserAvatar() {
   const avatar = document.getElementById('user-avatar');
   const user = auth.getUser();
-  if (avatar && user) {
-    avatar.textContent = user.name.charAt(0).toUpperCase();
+  if (avatar) {
+    if (user && user.name) {
+      avatar.textContent = user.name.charAt(0).toUpperCase();
+    } else {
+      avatar.textContent = 'Login';
+    }
   }
   updateNavigation();
 }
@@ -44,7 +48,7 @@ function updateNavigation() {
   if (fourthLink) {
     if (auth.isLoggedIn()) {
       fourthLink.textContent = 'Orders';
-      fourthLink.href = '../orders/';
+      fourthLink.href = '/frontend/orders/';
       fourthLink.style.display = '';
     } else {
       fourthLink.style.display = 'none';
@@ -54,10 +58,7 @@ function updateNavigation() {
 
 document.addEventListener('DOMContentLoaded', function() {
   updateNavigation();
-  
-  if (auth.isLoggedIn()) {
-    updateUserAvatar();
-  }
+  updateUserAvatar(); // Always call this to set initial state
 
   const loginForm = document.getElementById('login-form');
   const signupForm = document.getElementById('signup-form');

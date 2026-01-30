@@ -139,18 +139,23 @@ body {
 }
 
 .user-avatar {
-  width: 2.25rem;
-  height: 2.25rem;
-  background-color: #9333ea;
-  border-radius: 50%;
+  background-color: #ea580c;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: 700;
-  font-size: 0.875rem;
-  cursor: pointer;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-avatar:hover {
+  background-color: #c2410c;
 }
 
 .store-page {
@@ -176,7 +181,7 @@ body {
 .store-hero-bg {
   position: absolute;
   inset: 0;
-  background-image: url("https://images.pexels.com/photos/30177512/pexels-photo-30177512/free-photo-of-addis-ababa-skyline-at-sunset.jpeg");
+  background-image: url("https://i.pinimg.com/1200x/12/eb/c7/12ebc7afee8428b3fa2cb844b9d02fdf.jpg");
   background-size: cover;
   background-position: center;
   filter: brightness(0.6);
@@ -351,7 +356,6 @@ body {
   color: #6b7280;
 }
 
-/* PRODUCT GRID & CARDS */
 
 .products-grid {
   display: grid;
@@ -381,7 +385,7 @@ body {
   background: #111111;
   overflow: hidden;
   aspect-ratio: 4 / 3;
-  min-height: 300px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -621,7 +625,15 @@ body {
 
 .recommendation-card .product-image-wrapper {
   aspect-ratio: 4 / 3;
-  min-height: 260px;
+  min-height: 200px;
+  overflow: hidden;
+}
+
+.recommendation-card .product-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .recommendation-card .product-name {

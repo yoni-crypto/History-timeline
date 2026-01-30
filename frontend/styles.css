@@ -2,6 +2,12 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+.logo-image {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
 .nav-menu {
   display: flex;
   align-items: center;
