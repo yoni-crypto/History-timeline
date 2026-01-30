@@ -385,7 +385,7 @@ body {
   background: #111111;
   overflow: hidden;
   aspect-ratio: 4 / 3;
-  min-height: 200px;
+  min-height: 320px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -754,17 +754,21 @@ body {
 
 .footer-social {
   display: flex;
-  gap: 6px;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.footer-social button {
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
-  border: 1px solid #4b5563;
-  background: #111111;
-  font-size: 0.7rem;
-  cursor: pointer;
+.footer-social a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+
+.footer-social a:hover {
+  color: #f9fafb;
 }
 
 .store-footer-bottom {
