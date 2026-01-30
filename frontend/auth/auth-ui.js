@@ -1,8 +1,63 @@
 function handleUserClick() {
   if (auth.isLoggedIn()) {
-    window.location.href = '/frontend/orders/';
+    // Create a simple dropdown menu for logged-in users
+    const existingMenu = document.getElementById('user-dropdown');
+    if (existingMenu) {
+      existingMenu.remove();
+      return;
+    }
+
+    const dropdown = document.createElement('div');
+    dropdown.id = 'user-dropdown';
+    dropdown.style.cssText = `
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+      min-width: 120px;
+    `;
+    
+    // Use correct path for orders link
+    const currentPath = window.location.pathname;
+    const ordersPath = (currentPath === '/' || currentPath.endsWith('/index.html') || currentPath.endsWith('/frontend/')) ? './orders/' : '../orders/';
+    
+    dropdown.innerHTML = `
+      <a href="${ordersPath}" style="display: block; padding: 8px 12px; text-decoration: none; color: #333; border-bottom: 1px solid #eee;">My Orders</a>
+      <button onclick="handleLogout()" style="display: block; width: 100%; padding: 8px 12px; text-align: left; border: none; background: none; color: #333; cursor: pointer;">Logout</button>
+    `;
+    
+    const userAvatar = document.getElementById('user-avatar');
+    userAvatar.style.position = 'relative';
+    userAvatar.appendChild(dropdown);
+    
+    // Close dropdown when clicking outside
+    setTimeout(() => {
+      document.addEventListener('click', function closeDropdown(e) {
+        if (!userAvatar.contains(e.target)) {
+          dropdown.remove();
+          document.removeEventListener('click', closeDropdown);
+        }
+      });
+    }, 0);
   } else {
     document.getElementById('auth-modal').classList.remove('hidden');
+  }
+}
+
+function handleLogout() {
+  auth.logout();
+  updateUserAvatar();
+  updateNavigation();
+  // Remove dropdown if it exists
+  const dropdown = document.getElementById('user-dropdown');
+  if (dropdown) dropdown.remove();
+  // Redirect to home if on orders page
+  if (window.location.pathname.includes('/orders/')) {
+    window.location.href = '../';
   }
 }
 
@@ -43,22 +98,31 @@ function updateUserAvatar() {
 
 function updateNavigation() {
   const navLinks = document.querySelectorAll('.nav-menu .nav-link');
-  const fourthLink = navLinks[3]; 
+  const ordersLink = navLinks[3]; // Fourth link should be Orders
   
-  if (fourthLink) {
+  if (ordersLink) {
     if (auth.isLoggedIn()) {
-      fourthLink.textContent = 'Orders';
-      fourthLink.href = '/frontend/orders/';
-      fourthLink.style.display = '';
+      ordersLink.textContent = 'Orders';
+      // Use the correct relative path based on current location
+      const currentPath = window.location.pathname;
+      if (currentPath === '/' || currentPath.endsWith('/index.html') || currentPath.endsWith('/frontend/')) {
+        ordersLink.href = './orders/';
+      } else {
+        ordersLink.href = '../orders/';
+      }
+      ordersLink.style.display = 'inline-block';
+      ordersLink.style.visibility = 'visible';
     } else {
-      fourthLink.style.display = 'none';
+      ordersLink.style.display = 'none';
+      ordersLink.style.visibility = 'hidden';
     }
   }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Initialize navigation and avatar immediately
   updateNavigation();
-  updateUserAvatar(); // Always call this to set initial state
+  updateUserAvatar();
 
   const loginForm = document.getElementById('login-form');
   const signupForm = document.getElementById('signup-form');
@@ -73,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
         await auth.login(email, password);
         closeAuthModal();
         updateUserAvatar();
+        updateNavigation(); // Ensure navigation updates after login
       } catch (error) {
         document.getElementById('login-error').textContent = error.message;
       }
@@ -89,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
         await auth.signup(name, email, password, city, country);
         closeAuthModal();
         updateUserAvatar();
+        updateNavigation(); // Ensure navigation updates after signup
       } catch (error) {
         document.getElementById('signup-error').textContent = error.message;
       }

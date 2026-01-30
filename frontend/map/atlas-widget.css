@@ -16,16 +16,12 @@
 .atlas-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0.5rem 1rem;
   background-color: rgba(234, 88, 12, 0.9);
   color: white;
   font-weight: 700;
   font-size: 0.875rem;
-}
-
-.atlas-close {
-  cursor: pointer;
 }
 
 .atlas-tabs {
